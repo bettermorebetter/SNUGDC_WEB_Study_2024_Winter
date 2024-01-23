@@ -1,26 +1,23 @@
-package hello.servlet.mvc.controller;
+package hello.servlet.mvc.controllerv2;
 
 import hello.servlet.domain.member.Member;
 import hello.servlet.domain.member.MemberRepository;
+import hello.servlet.mvc.MyView;
 import hello.servlet.mvc.model.MVCMemberSaveModel;
 import hello.servlet.mvc.view.MVCMemberSaveView;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 
-public class MVCMemberSaveController implements ControllerVersion1 {
+public class MVCMemberSaveControllerV2 implements ControllerVersion2 {
     private MemberRepository memberRepository = MemberRepository.getInstance();
 
     @Override
-    public void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public MyView process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MVCMemberSaveModel mvcMemberSaveModel = new MVCMemberSaveModel();
-        MVCMemberSaveView mvcMemberSaveView = new MVCMemberSaveView();
 
-        System.out.println("MemberSaveServlet.service");
         String username = request.getParameter("username"); // 파라미터를 꺼내서
         int age = Integer.parseInt(request.getParameter("age")); // 파라미터를 꺼내서
         Member member = new Member(username, age);
@@ -30,6 +27,6 @@ public class MVCMemberSaveController implements ControllerVersion1 {
         mvcMemberSaveModel.setMember(member);
 
         // 그리고 페이지를 보여준다.
-        mvcMemberSaveView.View(request, response, mvcMemberSaveModel);
+        return new MyView("/WEB-INF/views/members/save.jsp");
     }
 }
